@@ -2,5 +2,5 @@
 ## h2
 ### h3
 
-**This is bold text**
-_This text is italicized_
+**這是粗體**
+_這是斜體_
