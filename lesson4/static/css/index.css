@@ -142,43 +142,43 @@ footer {
     transform: translateY(-50%);
   }
 
-.main-navigation {
-  display: none;
-  /* 隱藏原始導覽列 */
-  width: 100%;
-  order: 3;
-  /* 調整顯示順序，讓它在 logo 和按鈕之後 */
-  margin-top: 15px;
-  /* --- Changes for absolute positioning --- */
-  position: absolute;
-  top: 100%;
-  /* Position below the .site-header .container */
-  left: 0;
-  background-color: #90b1e9;
-  /* Match header or choose a menu background */
-  z-index: 1000;
-  /* Ensure it's above other page content */
-  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
-  /* Add a subtle shadow for separation */
-  padding: 10px 0;
-  /* Add some vertical padding inside the dropdown */
-  /* order: 3; /* No longer needed as it's out of flow */
-  /* margin-top: 15px; /* No longer needed due to absolute positioning */
-}
-
-.main-navigation.toggled {
-  display: block;
-  /* 當 .toggled class 被加入時顯示選單 */
-}
-
-.main-navigation ul {
-  flex-direction: column;
-  /* 選單項目垂直排列 */
-
-  .main-navigation ul li a {
-    display: block;
-    /* 讓連結佔滿整個 li */
-    text-align: center;
-    padding: 12px 0;
+  .main-navigation {
+    display: none;
+    /* 隱藏原始導覽列 */
+    width: 100%;
+    order: 3;
+    /* 調整顯示順序，讓它在 logo 和按鈕之後 */
+    margin-top: 15px;
+    /* --- Changes for absolute positioning --- */
+    position: absolute;
+    top: 100%;
+    /* Position below the .site-header .container */
+    left: 0;
+    background-color: #90b1e9;
+    /* Match header or choose a menu background */
+    z-index: 1000;
+    /* Ensure it's above other page content */
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+    /* Add a subtle shadow for separation */
+    padding: 10px 0;
+    /* Add some vertical padding inside the dropdown */
+    /* order: 3; /* No longer needed as it's out of flow */
+    /* margin-top: 15px; /* No longer needed due to absolute positioning */
   }
-}
+
+  .main-navigation.toggled {
+    display: block;
+    /* 當 .toggled class 被加入時顯示選單 */
+  }
+
+  .main-navigation ul {
+    flex-direction: column;
+    /* 選單項目垂直排列 */
+
+    .main-navigation ul li a {
+      display: block;
+      /* 讓連結佔滿整個 li */
+      text-align: center;
+      padding: 12px 0;
+    }
+  }
