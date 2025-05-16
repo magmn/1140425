@@ -65,7 +65,7 @@ body {
 .main-navigation ul li a:hover,
 .main-navigation ul li a.active {
   /* 可為當前頁面添加 active class */
-  background-color: #3c4679;
+  background-color: #abffc0;
   color: #fff;
 }
 
@@ -73,7 +73,7 @@ body {
 .menu-toggle {
   display: none;
   /* 預設隱藏，手機版顯示 */
-  background-color: #333;
+  background-color: #333333;
   color: #fff;
   border: none;
   padding: 10px 15px;
