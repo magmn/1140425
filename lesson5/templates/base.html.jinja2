@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>職能發展學院</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='css/index.css')}}">
+    <title>
+    {% block title %}
+    職能發展學院
+    {% endblock %}
+    </title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/base.css')}}">
 </head>
 <body>
     <header class="site-header">
@@ -14,11 +18,11 @@
             </div>
             <nav class="main-navigation">
                 <ul>
-                    <li><a href="url_for('index')">Home</a></li>
-                    <li><a href="#">課程規劃</a></li>
-                    <li><a href="#">最新消息</a></li>
-                    <li><a href="#">交通資訊</a></li>
-                    <li><a href="#">聯絡我們</a></li>
+                    <li><a href="{{url_for('index')}}">Home</a></li>
+                    <li><a href="{{url_for('classes')}}">課程規劃</a></li>
+                    <li><a href="{{url_for('new')}}">最新消息</a></li>
+                    <li><a href="{{url_for('traffic')}}">交通資訊</a></li>
+                    <li><a href="{{url_for('contact')}}">聯絡我們</a></li>
                 </ul>
             </nav>
             <button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false">
@@ -29,9 +33,11 @@
 
     <main>
         <div class="container">
+        {% block main %}
             <h1>歡迎來到職能發展學院</h1>
             <p>這是一個符合 RWD 的基礎網頁框架，您可以基於此框架繼續開發您的網站內容。</p>
             <p>此框架的導覽列是根據您提供的圖片設計的。</p>
+        {% endblock %}
         </div>
     </main>
 
