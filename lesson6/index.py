@@ -21,3 +21,4 @@ def traffic():
 @app.route("/contact")
 def contact():
     return render_template("contact.html.jinja2")
+
