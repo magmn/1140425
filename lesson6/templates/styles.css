@@ -1,0 +1,129 @@
+/* 基本重置 */
+body,
+html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    /* 您可以替換成您網頁主要使用的字體 */
+}
+
+footer {
+    background-color: #00FFFF;
+    /* 根據圖片的背景色，您可以調整此顏色 */
+    color: #000000;
+    /* 根據圖片的文字顏色，您可以調整此顏色 */
+    padding: 20px 0;
+    /* 上下邊距 */
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    /* 主要元素之間的空間分配 */
+    align-items: center;
+    /* 垂直置中對齊 */
+    max-width: 1200px;
+    /* 設定footer內容的最大寬度 */
+    margin: 0 auto;
+    /* 使內容在頁面中置中 */
+    padding: 0 20px;
+    /* 左右內邊距，避免內容緊貼邊緣 */
+    flex-wrap: wrap;
+    /* 在小螢幕上允許換行 */
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    /* Logo圖片和文字垂直置中 */
+}
+
+.footer-logo img {
+    height: 50px;
+    /* 根據您的Logo調整高度 */
+    margin-right: 10px;
+    /* Logo圖片和文字之間的間距 */
+}
+
+.footer-logo span {
+    font-size: 1.5em;
+    /* Logo文字大小 */
+    font-weight: bold;
+}
+
+.footer-nav ul {
+    list-style: none;
+    /* 移除列表前的點 */
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.footer-nav ul li {
+    margin-left: 20px;
+    /* 導航項目之間的間距 */
+}
+
+.footer-nav ul li:first-child {
+    margin-left: 0;
+    /* 第一個導航項目不需要左邊距 */
+}
+
+.footer-nav ul li a {
+    text-decoration: none;
+    /* 移除連結底線 */
+    color: #000000;
+    /* 導航連結文字顏色 */
+    font-weight: bold;
+}
+
+.footer-nav ul li a:hover {
+    text-decoration: underline;
+    /* 滑鼠懸停時顯示底線 */
+}
+
+.footer-copyright {
+    font-size: 0.9em;
+    text-align: right;
+    /* 版權文字靠右對齊 */
+    /* 在flex佈局中，如果希望copyright在最右側，且與導航分開，
+       可以考慮將導航和logo群組，或者使用更複雜的flex或grid佈局 */
+}
+
+/* 響應式設計：針對小螢幕的調整 */
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        /* 在小螢幕上，元素垂直排列 */
+        align-items: flex-start;
+        /* 元素靠左對齊 */
+    }
+
+    .footer-logo,
+    .footer-nav,
+    .footer-copyright {
+        width: 100%;
+        /* 元素佔滿寬度 */
+        margin-bottom: 15px;
+        /* 元素之間的垂直間距 */
+        text-align: left;
+        /* 文字靠左對齊 */
+    }
+
+    .footer-nav ul {
+        flex-direction: column;
+        /* 導航項目垂直排列 */
+    }
+
+    .footer-nav ul li {
+        margin-left: 0;
+        margin-bottom: 10px;
+        /* 導航項目之間的垂直間距 */
+    }
+
+    .footer-copyright {
+        text-align: center;
+        /* 在小螢幕上，版權文字置中 */
+        margin-bottom: 0;
+    }
+}
