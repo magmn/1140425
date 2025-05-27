@@ -24,7 +24,7 @@ def classes():
 def new():
     try:
         conn = psycopg2.connect(conn_string)
-        #raise Exception("出現錯誤")
+        raise Exception("出現錯誤")
         print("連線成功")
     except OperationalError as e:
         print("連線失敗")
