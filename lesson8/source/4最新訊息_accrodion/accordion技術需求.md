@@ -1,5 +1,7 @@
 # Accordion 技術需求規格
 
+
+
 ## 1. 總覽
 
 本文件定義了基於 `accordion.png` 圖片所示設計的 HTML、CSS 和 JavaScript 技術需求。
@@ -115,9 +117,9 @@
     border: none;
     outline: none;
     font-size: 16px;
-    display: flex; /* 使用 flexbox 來排列 title 和 date */
-    justify-content: space-between; /* title 和 date 分散對齊 */
+    display: flex; /* 使用 flexbox 來排列內部元素 */
     align-items: center; /* 垂直居中 */
+    /* justify-content: space-between; /* 移除此行，讓標題推動日期和圖標到右側 */
     transition: background-color 0.3s ease;
 }
 
@@ -129,7 +131,7 @@
     flex-grow: 1; /* 標題佔據多餘空間 */
     margin-right: 10px; /* 與日期之間留點間距 */
     /* 允許多行標題 */
-    white-space: normal; 
+    white-space: normal;
     word-wrap: break-word;
 }
 
@@ -137,6 +139,8 @@
     font-size: 0.9em;
     color: #666;
     white-space: nowrap; /* 日期不換行 */
+    flex-shrink: 0; /* 防止日期被壓縮 */
+    /* margin-right: 10px; /* 如果圖標是 ::after 的話，此處間距由 ::after 的 margin-left 控制 */
 }
 
 /* 展開狀態的頭部樣式 (可選) */
@@ -150,6 +154,7 @@
     font-size: 1.2em;
     color: #777;
     margin-left: 10px;
+    flex-shrink: 0; /* 防止圖標被壓縮 */
     transition: transform 0.3s ease;
 }
 
@@ -162,13 +167,16 @@
 .accordion-content {
     padding: 0 15px; /* 左右 padding, 上下由 max-height 和 is-open 控制 */
     background-color: white;
-    overflow: hidden; 
+    overflow: hidden; /* 預設隱藏內容，並配合 max-height=0 */
     max-height: 0; /* 預設隱藏 */
+    /* height: auto; /* 移除或註釋，因為展開時將使用固定高度 */
     transition: max-height 0.3s ease-out, padding-top 0.3s ease-out, padding-bottom 0.3s ease-out;
 }
 
 .accordion-item.is-open .accordion-content {
-    max-height: 150px; /* 展開時的最大高度，根據實際內容調整 */
+    height: 100px; /* 固定高度 */
+    max-height: 100px; /* 動畫過渡的目標值，應等於固定高度 */
+    overflow-y: auto; /* 當內容超出固定高度時，顯示垂直滾動條 */
     padding-top: 15px;
     padding-bottom: 15px;
 }
@@ -180,19 +188,59 @@
 .accordion-content p:last-child {
     margin-bottom: 0;
 }
+
+/* RWD Adjustments */
+@media (max-width: 767px) { /* 手機版樣式 (螢幕寬度 < 768px) */
+    .accordion-header {
+        padding: 12px; /* 調整手機版頭部 padding */
+        font-size: 15px; /* 調整手機版頭部基礎字體大小 */
+    }
+
+    .accordion-header .accordion-title {
+        margin-right: 8px; /* 調整標題與日期之間的間距 */
+        /* 標題字體大小可繼承或單獨設定 */
+    }
+
+    .accordion-header .accordion-date {
+        font-size: 0.85em; /* 相對於新的 header font-size，或設為絕對值 */
+    }
+
+    .accordion-header::after { /* 圖標 */
+        font-size: 1.1em; /* 調整圖標大小 */
+        margin-left: 8px; /* 調整圖標與日期之間的間距 */
+    }
+
+    .accordion-item.is-open .accordion-content {
+        height: 120px; /* 手機版固定高度 */
+        max-height: 120px; /* 手機版動畫過渡的目標值 */
+        overflow-y: auto; /* 同樣允許滾動 */
+        padding-top: 12px; /* 調整手機版內容 padding */
+        padding-bottom: 12px;
+    }
+
+    .accordion-content {
+        padding: 0 12px; /* 調整手機版內容左右 padding */
+    }
+
+    .accordion-content p {
+        font-size: 14px; /* 調整手機版內容字體大小 */
+        line-height: 1.5; /* 調整手機版內容行高 */
+    }
+}
 ```
 
 ### 3.2. 樣式說明
 
--   `.accordion-header`: 使用 Flexbox 佈局，使 `title` 和 `date` 能夠良好地並排顯示，且 `title` 可以佔據剩餘空間。
+-   `.accordion-header`: 使用 Flexbox 佈局。`.accordion-title` 設定 `flex-grow: 1` 使其佔據可用空間，將 `.accordion-date` 和 `::after` 圖標推向右側。`align-items: center` 確保垂直居中。
 -   `.accordion-title`: 允許 `white-space: normal` 和 `word-wrap: break-word` 以支持多行標題。
 -   `.accordion-content`:
-    -   初始狀態 `max-height: 0; padding-top: 0; padding-bottom: 0; overflow: hidden;` 使其收合。
-    -   `.is-open .accordion-content` 透過設定 `max-height` (例如 `150px`，應根據內容調整) 和 `padding-top/bottom` 來展開內容。
+    -   初始狀態 `max-height: 0; overflow: hidden;` 使其收合。`padding-top` 和 `padding-bottom` 也會從 0 開始過渡。
+    -   `.is-open .accordion-content` 透過設定固定的 `height` (例如桌面版 `100px`，手機版 `120px`) 和相同的 `max-height` (用於過渡動畫) 來展開內容。
+    -   `overflow-y: auto;` 確保當實際內容超出設定的固定高度時，會出現垂直滾動條。
     -   `transition` 屬性使展開和收合具有平滑動畫效果。
-    -   註解中提供了使用 `-webkit-line-clamp` 限制行數的方法，但需注意其瀏覽器兼容性。若要嚴格控制行數並有更好的兼容性，可能需要 JavaScript 輔助截斷文字。
 -   `.is-open` class: 用於控制展開項目的樣式。
 -   `::after` 偽元素: 用於在頭部右側顯示 `+` / `-` 圖標，指示展開/收合狀態，並帶有旋轉動畫。
+ RWD**: 使用 `@media (max-width: 767px)` 針對小螢幕設備調整 `padding`、`font-size`、`margin`，以及內容區域的固定 `height` (例如 `120px`)。
 
 ## 4. JavaScript 功能
 
@@ -473,17 +521,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
 ## 6. 注意事項與未來擴展
 
--   **內容截斷**: CSS 的 `max-height` 和 `overflow: hidden` 會直接截斷超出高度的內容。如果需要更優雅的文字截斷（例如顯示 "..."），可以考慮：
-    -   CSS `text-overflow: ellipsis` 配合 `white-space: nowrap` 和 `overflow: hidden` (適用於單行)。
-    -   CSS `-webkit-line-clamp` (多行，但有兼容性問題)。
-    -   JavaScript 截斷：在 JS 中計算內容高度或行數，並在超出時截斷文字並添加 "閱讀更多" 鏈接。
+-   **內容截斷**:
+    -   **目前已改為固定高度與滾動條**：當內容超出 `.accordion-item.is-open .accordion-content` 設定的固定 `height` 時，將通過 `overflow-y: auto;` 顯示垂直滾動條。
+    -   如果仍需文字截斷效果（例如固定行數後顯示 "..." 而不是滾動條），則需要其他 CSS 技術 (如 `-webkit-line-clamp`，但有兼容性限制) 或 JavaScript 輔助。
 -   **可訪問性 (Accessibility)**:
     -   已使用 `button`、`aria-expanded`、`aria-controls`、`aria-labelledby`、`role="region"`。
     -   確保鍵盤導航友好：`button` 元素本身是可聚焦和可通過 Enter/Space 鍵激活的。
+    -   滾動內容區域也應確保鍵盤可操作（通常瀏覽器默認支持）。
 -   **性能**: 如果 accordion 項目非常多，可以考慮事件委託 (event delegation) 來優化性能，將事件監聽器綁定到 `.accordion-container` 而不是每個 `.accordion-header`。
 -   **Jinja 整合**:
     -   確保後端傳遞的資料結構 (`items` 列表，每個 `item` 包含 `title`, `date`, `content`) 與模板中的變數名一致。
     -   唯一 ID (`accordion-content-{{ loop.index }}`, `accordion-header-{{ loop.index }}`) 的生成對於 ARIA 屬性至關重要。
--   **`max-height` 調整**: CSS 中 `.accordion-item.is-open .accordion-content` 的 `max-height` 值 (示例中為 `150px`) 應根據實際內容的最大預期高度進行調整，以確保內容能完整顯示。如果內容高度變化很大，可能需要動態計算此值，或者設置一個足夠大的通用值。
+-   **固定高度調整**: CSS 中 `.accordion-item.is-open .accordion-content` 的 `height` 值 (桌面版 `100px`，手機版 `120px`) 是固定的。您應根據預期顯示的內容行數和整體設計來調整這些值。`max-height` 應與 `height` 保持一致以確保過渡動畫效果正確。
+-   **RWD 策略**: 目前採用的 RWD 策略是調整間距和字體大小。如果需要在小螢幕上將標題、日期和圖標堆疊顯示，CSS 中的 `flex-direction: column;` 可以用於 `.accordion-header`，並相應調整其子元素的樣式。
 
 This markdown file, `accordion技術需求.md`, should now be in the specified path and contain all the requested details.
