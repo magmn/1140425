@@ -6,7 +6,7 @@ from psycopg2 import OperationalError
 
 # 載入 .env 檔案
 load_dotenv()
-conn_string = os.getenv('RENDER_DATABASE')
+conn_string = os.getenv('RENDER_DATABA')
 
 app = Flask(__name__)
 
@@ -25,10 +25,13 @@ def new():
     try:
         conn = psycopg2.connect(conn_string)
         with conn.cursor() as cur:
-            sql = "SELECT * FROM 最新訊息"
+            sql = """SELECT * FROM 最新消息
+                    ORDER BY 上班日期 DESC;"""
             cur.execute(sql)
         # 取得所有資料
             rows = cur.fetchall()
+            print(rows)
+            
         
     except OperationalError as e:
         print("連線失敗")
@@ -46,4 +49,3 @@ def traffic():
 @app.route("/contact")
 def contact():
     return render_template("contact.html.jinja2")
-
