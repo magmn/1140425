@@ -18,15 +18,15 @@ body {
 
 .tab-container {
     display: flex;
-    height: 53px;
+    height: 40px;
 }
 
 .tab-item {
     font-family: 'Inter', sans-serif;
     font-weight: 500;
-    font-size: 24px;
+    font-size: 15px;
     line-height: 1.21;
-    padding: 12px 29px;
+    padding: 12px 12px;
     border: none;
     cursor: pointer;
     outline: none;
